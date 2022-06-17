@@ -19,13 +19,14 @@ def fitness_function(solution):
     return fitness
 
 
+DATA = generate_dataset()
+
 if __name__ == "__main__":
     model_name = "WOA"
     N_TRIALS = 1
-    DATA = generate_dataset()
-    LB = [1, 10, 0, 0.01, 0, 0, 5]
-    UB = [3.99, 30.99, 6.99, 0.5, 7.99, 7.99, 50]
-    epoch = 30
+    LB = [1, 5, 0, 0.01, 0, 0, 5]
+    UB = [3.99, 20.99, 6.99, 0.5, 7.99, 7.99, 50]
+    epoch = 50
     pop_size = 20
     mode_names = ["single", "swarm", "thread", "process"]
 
