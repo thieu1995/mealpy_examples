@@ -2,36 +2,49 @@
 
 ## Environment
 
-1. If using conda 
+1. Using conda/miniconda to create new environment
+
 ```code
-+ Should create a new environment:
-   conda create -n new ml python==3.7.5
+
+   conda create -n new ml python==3.8.5
    conda activate ml
    
    conda install -c conda-forge numpy
    conda install -c conda-forge pandas
    conda install -c conda-forge scikit-learn
    conda install -c conda-forge matplotlib
-   conda install -c conda-forge tensorflow==2.1.0
-   conda install -c conda-forge keras==2.3.1
+   conda install -c conda-forge tensorflow==2.9.1
+   conda install -c conda-forge keras==2.9.0
    
-   pip uninstall mealpy
-   pip uninstall permetrics
-   pip install mealpy==2.4.0
+   pip install mealpy==2.4.1
    pip install permetrics==1.2.2
 ```
 
-2. If using pip 
+2. Using pip to create new environment
 
 ```code 
-+ Should create a new environment:
-   python -m venv ml
-   ml\Scripts\activate.bat
+============ Install environment on Windows ===============
+open terminal: (pip on windows is already installed inside python)
+   python -m venv pve_paper
+   pve_paper\Scripts\activate.bat
    pip install -r requirements.txt
+   
+   
+============ Install environemtn on Ubuntu ==================
+
+sudo apt-get install pip3
+sudo apt-get install python3.8-venv
+
+python3 -m venv pve_paper 
+source pve_paper/bin/activate
+pip install -r requirements.txt
+
+deactivate (stop using environment)
+
 ```
 
 
-## Export environment
+## Pip tutorials
 
 ```code 
 
