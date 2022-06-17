@@ -76,7 +76,7 @@ def generate_loss_value(structure, data):
     model.compile(optimizer=optimizer, loss='mse')
 
     # fit model
-    model.fit(data["X_train"], data["y_train"], epochs=structure["epoch"], batch_size=structure["batch_size"], verbose=0)
+    model.fit(data["X_train"], data["y_train"], epochs=structure["epoch"], batch_size=structure["batch_size"], verbose=2)
 
     # We take the loss value of validation set as a fitness value for selecting the best model
     # demonstrate prediction
