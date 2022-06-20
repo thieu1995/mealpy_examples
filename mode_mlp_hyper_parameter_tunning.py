@@ -6,7 +6,7 @@
 
 from pandas import DataFrame
 from mealpy.swarm_based import WOA
-from src.timeseries_util import decode_solution, generate_dataset, generate_loss_value
+from src.timeseries_util import decode_solution, generate_loss_value
 from os import getcwd, path, makedirs
 import time
 import numpy as np
@@ -15,11 +15,9 @@ np.random.seed(12345)
 
 def fitness_function(solution):
     structure = decode_solution(solution)
-    fitness = generate_loss_value(structure, DATA)
+    fitness = generate_loss_value(structure)
     return fitness
 
-
-DATA = generate_dataset()
 
 if __name__ == "__main__":
     model_name = "WOA"

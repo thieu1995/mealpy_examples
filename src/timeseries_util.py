@@ -64,7 +64,9 @@ def decode_solution(solution):
     }
 
 
-def generate_loss_value(structure, data):
+def generate_loss_value(structure):
+    data = generate_dataset()
+
     # define model
     model = Sequential()
     model.add(Dense(structure["n_hidden_units"], activation=structure["activation"],
@@ -99,6 +101,3 @@ def generate_dataset():
     X_test, y_test = split_sequence(scaled_seq[x_train_point:], n_steps)
 
     return {"X_train": X_train, "y_train": y_train, "X_test": X_test, "y_test": y_test, "n_steps": n_steps}
-
-
-
