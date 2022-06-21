@@ -6,12 +6,12 @@
 
 # univariate mlp example
 import numpy as np
+from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from keras.models import Sequential
 from keras.layers import Dense
-from sklearn.preprocessing import LabelEncoder, MinMaxScaler
-from sklearn.metrics import mean_squared_error
 from keras import optimizers
 import statsmodels.datasets.co2 as co2
+from permetrics.regression import RegressionMetric
 
 
 # split a univariate sequence into samples
@@ -80,10 +80,12 @@ def generate_loss_value(structure):
     # fit model
     model.fit(data["X_train"], data["y_train"], epochs=structure["epoch"], batch_size=structure["batch_size"], verbose=0)
 
-    # We take the loss value of validation set as a fitness value for selecting the best model
-    # demonstrate prediction
-    yhat = model.predict((data["X_test"]))
-    return mean_squared_error(data["y_test"], yhat)
+    # We take the loss value of validation set as a fitness value for selecting
+    # the best model demonstrate prediction
+    y_pred = model.predict(data["X_test"])
+
+    evaluator = RegressionMetric(data["y_test"], y_pred, decimal=6)
+    return evaluator.mean_squared_error()
 
 
 def generate_dataset():
