@@ -82,7 +82,7 @@ def generate_loss_value(structure):
 
     # We take the loss value of validation set as a fitness value for selecting the best model
     # demonstrate prediction
-    yhat = model(data["X_test"])
+    yhat = model.predict((data["X_test"]))
     return mean_squared_error(data["y_test"], yhat)
 
 
