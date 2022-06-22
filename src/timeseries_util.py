@@ -110,7 +110,12 @@ def generate_loss_value(structure, data):
 
     # We take the loss value of validation set as a fitness value for selecting
     # the best model demonstrate prediction
-    y_pred = model.predict(data["X_test"])
+    y_pred = model.predict(data["X_test"], verbose=0)
 
     evaluator = RegressionMetric(data["y_test"], y_pred, decimal=6)
-    return evaluator.mean_squared_error()
+    fitness = evaluator.mean_squared_error()
+
+    del model
+    del data
+    del evaluator
+    return fitness
