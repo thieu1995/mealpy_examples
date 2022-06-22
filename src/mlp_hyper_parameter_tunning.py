@@ -9,9 +9,9 @@ from mealpy.evolutionary_based import FPA
 from src.timeseries_util import decode_solution, generate_dataset, generate_loss_value
 
 
-def fitness_function(solution):
-    structure = decode_solution(solution)
-    fitness = generate_loss_value(structure, DATA)
+def fitness_function(solution, data):
+    structure = decode_solution(solution, data)
+    fitness = generate_loss_value(structure, data)
     return fitness
 
 
@@ -25,6 +25,7 @@ problem = {
     "lb": LB,
     "ub": UB,
     "minmax": "min",
+    "data": DATA
 }
 
 # model = GWO.BaseGWO(problem, epoch=5, pop_size=20)

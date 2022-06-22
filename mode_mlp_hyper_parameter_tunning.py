@@ -6,20 +6,37 @@
 
 from pandas import DataFrame
 from mealpy.swarm_based import WOA
-from src.timeseries_util import decode_solution, generate_loss_value
+from src.timeseries_util import decode_solution, generate_loss_value, generate_data
+from sklearn.preprocessing import LabelEncoder
 from os import getcwd, path, makedirs
 import time
 import numpy as np
 np.random.seed(12345)
 
 
-def fitness_function(solution):
-    structure = decode_solution(solution)
-    fitness = generate_loss_value(structure)
+def fitness_function(solution, data):
+    structure = decode_solution(solution, data)
+    fitness = generate_loss_value(structure, data)
     return fitness
 
 
 if __name__ == "__main__":
+
+    # LABEL ENCODER
+    OPT_ENCODER = LabelEncoder()
+    OPT_ENCODER.fit(['SGD', 'RMSprop', 'Adagrad', 'Adadelta', 'Adam', 'Adamax', 'Nadam'])  # domain range ==> 7 values
+
+    WOI_ENCODER = LabelEncoder()
+    WOI_ENCODER.fit(['uniform', 'lecun_uniform', 'normal', 'zero', 'glorot_normal', 'glorot_uniform', 'he_normal', 'he_uniform'])
+
+    ACT_ENCODER = LabelEncoder()
+    ACT_ENCODER.fit(['softmax', 'softplus', 'softsign', 'relu', 'tanh', 'sigmoid', 'hard_sigmoid', 'linear'])
+
+    DATA = generate_data()
+    DATA["OPT_ENCODER"] = OPT_ENCODER
+    DATA["WOI_ENCODER"] = WOI_ENCODER
+    DATA["ACT_ENCODER"] = ACT_ENCODER
+
     model_name = "WOA"
     N_TRIALS = 1
     LB = [1, 5, 0, 0.01, 0, 0, 5]
@@ -54,6 +71,7 @@ if __name__ == "__main__":
                 "minmax": "min",
                 "log_to": None,
                 "save_population": False,
+                "data": DATA,
             }
             model = WOA.BaseWOA(problem, epoch, pop_size)
             _, best_fitness = model.solve(mode=mode_name)
