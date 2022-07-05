@@ -9,6 +9,7 @@ from mealpy.swarm_based import WOA
 from src.timeseries_util import decode_solution, generate_loss_value, generate_data
 from sklearn.preprocessing import LabelEncoder
 from os import getcwd, path, makedirs
+import sys
 import time
 import numpy as np
 np.random.seed(12345)
@@ -41,8 +42,8 @@ if __name__ == "__main__":
     N_TRIALS = 1
     LB = [1, 5, 0, 0.01, 0, 0, 5]
     UB = [3.99, 20.99, 6.99, 0.5, 7.99, 7.99, 50]
-    epoch = 50
-    pop_size = 20
+    epoch = 30
+    pop_size = 10
     mode_names = ["single", "swarm", "thread", "process"]
 
     PATH_ERROR = "history/error/" + model_name + "/"
