@@ -42,7 +42,7 @@ if __name__ == "__main__":
     N_TRIALS = 1
     LB = [1, 5, 0, 0.01, 0, 0, 5]
     UB = [3.99, 20.99, 6.99, 0.5, 7.99, 7.99, 50]
-    epoch = 30
+    epoch = 20
     pop_size = 10
     mode_names = ["single", "swarm", "thread", "process"]
 
@@ -75,7 +75,7 @@ if __name__ == "__main__":
                 "data": DATA,
             }
             model = WOA.BaseWOA(problem, epoch, pop_size)
-            _, best_fitness = model.solve(mode=mode_name)
+            _, best_fitness = model.solve(mode=mode_name, n_workers=10)
             time_end = time.perf_counter() - time_start
 
             temp = f"trial_{id_trial}"
