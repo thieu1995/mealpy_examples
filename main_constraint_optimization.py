@@ -33,19 +33,20 @@ problem = {
     "lb": [-1.5, -0.5],
     "ub": [1.5, 2.5],
     "minmax": "min",
+    "save_population": True,
 }
 
 ## Run the algorithm
-model = DE.BaseDE(problem, epoch=100, pop_size=50)
-best_position, best_fitness_value = model.solve()
+model = DE.BaseDE(epoch=100, pop_size=50)
+best_position, best_fitness_value = model.solve(problem)
 print(f"Best solution: {best_position}, Best target: {best_fitness_value}")
 
 ## You can access all of available figures via object "history" like this:
-model.history.save_global_objectives_chart(filename="co/goc")
-model.history.save_local_objectives_chart(filename="co/loc")
-model.history.save_global_best_fitness_chart(filename="co/gbfc")
-model.history.save_local_best_fitness_chart(filename="co/lbfc")
-model.history.save_runtime_chart(filename="co/rtc")
-model.history.save_exploration_exploitation_chart(filename="co/eec")
-model.history.save_diversity_chart(filename="co/dc", algorithm_name='DE')
-model.history.save_trajectory_chart(list_agent_idx=[3, 7, 10, 15], filename="co/tc")
+model.history.save_global_objectives_chart(filename="history/co/goc")
+model.history.save_local_objectives_chart(filename="history/co/loc")
+model.history.save_global_best_fitness_chart(filename="history/co/gbfc")
+model.history.save_local_best_fitness_chart(filename="history/co/lbfc")
+model.history.save_runtime_chart(filename="history/co/rtc")
+model.history.save_exploration_exploitation_chart(filename="history/co/eec")
+model.history.save_diversity_chart(filename="history/co/dc", algorithm_name='DE')
+model.history.save_trajectory_chart(list_agent_idx=[3, 7, 10, 15], filename="history/co/tc")

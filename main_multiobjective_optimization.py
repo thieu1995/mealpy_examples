@@ -22,20 +22,21 @@ problem = {
     "lb": [-5, -5, -5],
     "ub": [5, 5, 5],
     "minmax": "min",
+    "save_population": True,
     "obj_weights": [0.5, 0.5]
 }
 
 ## Run the algorithm
-model = TLO.BaseTLO(problem, epoch=100, pop_size=50)
-model.solve()
+model = TLO.BaseTLO(epoch=100, pop_size=50)
+model.solve(problem)
 print(f"Best solution: {model.solution[0]},\nBest target: {model.solution[1]}")
 
 ## You can access all of available figures via object "history" like this:
-model.history.save_global_objectives_chart(filename="mo/goc")
-model.history.save_local_objectives_chart(filename="mo/loc")
-model.history.save_global_best_fitness_chart(filename="mo/gbfc")
-model.history.save_local_best_fitness_chart(filename="mo/lbfc")
-model.history.save_runtime_chart(filename="mo/rtc")
-model.history.save_exploration_exploitation_chart(filename="mo/eec")
-model.history.save_diversity_chart(filename="mo/dc", algorithm_name='TLO')
-model.history.save_trajectory_chart(list_agent_idx=[6, 13, 24], filename="mo/tc")
+model.history.save_global_objectives_chart(filename="history/mo/goc")
+model.history.save_local_objectives_chart(filename="history/mo/loc")
+model.history.save_global_best_fitness_chart(filename="history/mo/gbfc")
+model.history.save_local_best_fitness_chart(filename="history/mo/lbfc")
+model.history.save_runtime_chart(filename="history/mo/rtc")
+model.history.save_exploration_exploitation_chart(filename="history/mo/eec")
+model.history.save_diversity_chart(filename="history/mo/dc", algorithm_name='TLO')
+model.history.save_trajectory_chart(list_agent_idx=[6, 13, 24], filename="history/mo/tc")
