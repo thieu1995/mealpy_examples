@@ -107,7 +107,7 @@ class TimeSeriesMLP(Problem):
         model.compile(optimizer=optimizer, loss='mse')
 
         # fit model
-        model.fit(self.data["X_train"], self.data["y_train"], epochs=structure["epoch"], batch_size=structure["batch_size"], verbose=2)
+        model.fit(self.data["X_train"], self.data["y_train"], epochs=structure["epoch"], batch_size=structure["batch_size"], verbose=0)
 
         return model
 
@@ -115,7 +115,7 @@ class TimeSeriesMLP(Problem):
         model = self.generate_trained_model(structure)
 
         # We take the loss value of validation set as a fitness value for selecting the best model demonstrate prediction
-        y_pred = model.predict(self.data["X_test"])
+        y_pred = model.predict(self.data["X_test"], verbose=0)
 
         evaluator = RegressionMetric(self.data["y_test"], y_pred, decimal=6)
         return evaluator.mean_squared_error()
