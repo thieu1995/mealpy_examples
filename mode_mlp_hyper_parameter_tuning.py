@@ -8,7 +8,7 @@ from pathlib import Path
 from pandas import DataFrame
 from sklearn.preprocessing import LabelEncoder
 from src.timeseries_mlp import TimeSeriesMLP
-from src.utils import ts_util
+from src.utils import data_util
 from mealpy.swarm_based import WOA
 import time
 import numpy as np
@@ -32,18 +32,18 @@ if __name__ == "__main__":
     act_encoder = LabelEncoder()
     act_encoder.fit(list_activations)
 
-    data = ts_util.generate_data()
+    data = data_util.generate_time_series_data(train_ratio=0.75)
     data["OPT_ENCODER"] = opt_encoder
     data["NWI_ENCODER"] = nwi_encoder
     data["ACT_ENCODER"] = act_encoder
 
     model_name = "WOA"
-    N_TRIALS = 1
+    N_TRIALS = 10
     LB = [1, 5, 0, 0.01, 0, 0, 5]
     UB = [3.99, 20.99, 6.99, 0.5, 7.99, 7.99, 50]
-    epoch = 5
-    pop_size = 10
-    mode_names = ["single"]
+    epoch = 10
+    pop_size = 20
+    mode_names = ["single", "swarm", "thread", "process"]
 
     problem = TimeSeriesMLP(lb=LB, ub=UB, minmax="min", data=data, save_population=False, log_to="console")
 
