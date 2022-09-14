@@ -1,4 +1,6 @@
 pve_paper/
+data_generator.py
+getdata.py
 
 data/input_data/test*
 data/docs/
