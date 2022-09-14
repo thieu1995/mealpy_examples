@@ -6,59 +6,70 @@
 
 ## Link: https://vitalflux.com/classification-model-svm-classifier-python-example/
 
-# Sklearn modules & classes
-from sklearn.svm import SVC
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.preprocessing import StandardScaler, LabelEncoder
-from sklearn import datasets, metrics
-from mealpy.bio_based import SMA
-
-# Load the data set; In this example, the breast cancer dataset is loaded.
-bc = datasets.load_breast_cancer()
-X = bc.data
-y = bc.target
-
-# Create training and test split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=1, stratify=y)
-
-sc = StandardScaler()
-sc.fit(X_train)
-X_train_std = sc.transform(X_train)
-X_test_std = sc.transform(X_test)
-
-# LABEL ENCODER
-KERNEL_ENCODER = LabelEncoder()
-KERNEL_ENCODER.fit(['linear', 'poly', 'rbf', 'sigmoid'])
-# print(KERNEL_ENCODER.inverse_transform( [1, 3]))
+import time
+from pathlib import Path
+from pandas import DataFrame
+import numpy as np
+from sklearn.preprocessing import LabelEncoder
+from src.classification_svc import ClassificationSVC
+from mealpy.swarm_based import WOA
+from src.utils import data_util
 
 
-def fitness_function(solution):
-    # if kernel belongs to 0 - 0.99 ==> 0       ==> linear
-    #                       2 - 2.99 ==> 2
-    #                       3 - 3.99 ==> 3      ==> sigmoid
+if __name__ == "__main__":
+    # LABEL ENCODER
+    list_kernels = ['linear', 'poly', 'rbf', 'sigmoid']
+    kernel_encoder = LabelEncoder()
+    kernel_encoder.fit(list_kernels)
 
-    kernel_encoded = int(solution[0])
-    c = solution[1]
-    kernel_decoded = KERNEL_ENCODER.inverse_transform([kernel_encoded])[0]
+    data = data_util.generate_data_classification_data(test_ratio=0.25)
+    data["KERNEL_ENCODER"] = kernel_encoder
 
-    svc = SVC(C=c, random_state=1, kernel=kernel_decoded)
-    # Fit the model
-    svc.fit(X_train_std, y_train)
-    # Make the predictions
-    y_predict = svc.predict(X_test_std)
-    # Measure the performance
-    return metrics.accuracy_score(y_test, y_predict)
+    # x1. C: float [0.1 to 10000.0]
+    # x2. Kernel: [‘linear’, ‘poly’, ‘rbf’, ‘sigmoid’]
 
-problem = {
-    "fit_func": fitness_function,
-    "lb": [0, 0.1],
-    "ub": [3.99, 1000],
-    "minmax": "max",
-}
+    LB = [0.1, 0.]
+    UB = [10000.0, 3.99]
+    problem = ClassificationSVC(lb=LB, ub=UB, minmax="max", data=data, save_population=False, log_to=None)
 
-model = SMA.BaseSMA(problem, epoch=50, pop_size=50)
-model.solve()
-print(f"Best solution: {model.solution[0]}")
-print(f"Best kernel: {KERNEL_ENCODER.inverse_transform([int(model.solution[0][0])])[0]}, Best c: {model.solution[0][1]}")
+    model_name = "WOA"
+    N_TRIALS = 10
+    epoch = 100
+    pop_size = 20
+    mode_names = ["single", "swarm", "thread", "process"]
 
-print(f"Best accuracy: {model.solution[1]}")
+    PATH_ERROR = f"history/error/{model_name}/"
+    PATH_BEST_FIT = "history/best_fit/"
+    Path(PATH_ERROR).mkdir(parents=True, exist_ok=True)
+    Path(PATH_BEST_FIT).mkdir(parents=True, exist_ok=True)
+
+    ## Run model
+    best_fit_full = {}
+    list_total_time = []
+
+    for mode_name in mode_names:
+        error_full = {}
+        best_fit_list = []
+
+        for id_trial in range(1, N_TRIALS + 1):
+            time_start = time.perf_counter()
+
+            model = WOA.OriginalWOA(epoch, pop_size)
+            _, best_fitness = model.solve(problem, mode=mode_name)
+            time_end = time.perf_counter() - time_start
+
+            temp = f"trial_{id_trial}"
+            error_full[temp] = model.history.list_global_best_fit
+            best_fit_list.append(best_fitness)
+
+            list_total_time.append([mode_name, id_trial, time_end])
+
+        df = DataFrame(error_full)
+        df.to_csv(f"{PATH_ERROR}{model_name}_{mode_name}_svc_paras_tuning_error.csv", header=True, index=False)
+        best_fit_full[mode_name] = best_fit_list
+
+    df = DataFrame(best_fit_full)
+    df.to_csv(f"{PATH_BEST_FIT}/{model_name}_svc_paras_tuning_best_fit.csv", header=True, index=False)
+
+    df_time = DataFrame(np.array(list_total_time), columns=["mode", "trial", "total_time"])
+    df_time.to_csv(f"{PATH_BEST_FIT}/{model_name}_svc_paras_tuning_total_time.csv", header=True, index=False)
