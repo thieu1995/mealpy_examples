@@ -41,11 +41,11 @@ if __name__ == "__main__":
     N_TRIALS = 10
     LB = [1, 5, 0, 0.01, 0, 0, 5]
     UB = [3.99, 20.99, 6.99, 0.5, 7.99, 7.99, 50]
-    epoch = 10
+    epoch = 5
     pop_size = 20
     mode_names = ["single", "swarm", "thread", "process"]
 
-    problem = TimeSeriesMLP(lb=LB, ub=UB, minmax="min", data=data, save_population=False, log_to=None)
+    problem = TimeSeriesMLP(lb=LB, ub=UB, minmax="min", data=data, name="TimeSeriesMLP", save_population=False, log_to=None)
 
     PATH_ERROR = f"history/error/{model_name}/"
     PATH_BEST_FIT = "history/best_fit/"

@@ -25,7 +25,7 @@ def problem_generator(name, ndim):
         "ub": fobj.ub.tolist(),
         "minmax": "min",
         "fit_func": fobj.evaluate,
-        "name": fobj.name,
+        "name": name,
         "log_to": None,
     }
     return problem
