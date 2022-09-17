@@ -38,7 +38,7 @@ if __name__ == "__main__":
     data["ACT_ENCODER"] = act_encoder
 
     model_name = "WOA"
-    N_TRIALS = 10
+    N_TRIALS = 3
     LB = [1, 5, 0, 0.01, 0, 0, 5]
     UB = [3.99, 20.99, 6.99, 0.5, 7.99, 7.99, 50]
     epoch = 5
