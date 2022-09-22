@@ -38,11 +38,11 @@ if __name__ == "__main__":
     data["ACT_ENCODER"] = act_encoder
 
     model_name = "WOA"
-    N_TRIALS = 3
+    N_TRIALS = 1
     LB = [1, 5, 0, 0.01, 0, 0, 5]
     UB = [3.99, 20.99, 6.99, 0.5, 7.99, 7.99, 50]
     epoch = 5
-    pop_size = 20
+    pop_size = 10
     mode_names = ["single", "swarm", "thread", "process"]
 
     problem = TimeSeriesMLP(lb=LB, ub=UB, minmax="min", data=data, name="TimeSeriesMLP", save_population=False, log_to=None)
