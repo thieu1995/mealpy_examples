@@ -15,7 +15,7 @@ from mealpy.human_based import TLO, FBIO, GSKA, QSA
 from mealpy.music_based import HS
 from mealpy.physics_based import HGSO, NRO, EFO, EO
 from mealpy.swarm_based import DO, GWO, HGS, HHO, WOA, PSO, SSA, PFA
-from mealpy.multitask import Multitask
+from src.multitask import Multitask
 
 
 def problem_generator(name, ndim):
@@ -29,7 +29,6 @@ def problem_generator(name, ndim):
         "log_to": None,
     }
     return problem
-
 
 def termination_generator():
     term_dict = {
@@ -84,4 +83,4 @@ list_models = [model1, model2, model3, model4, model5, model6, model7, model8, m
 
 if __name__ == "__main__":
     multitask = Multitask(algorithms=list_models, problems=list_problems, terminations=list_terms)
-    multitask.execute(n_trials=10, mode="parallel", n_workers=10, save_path="history2", save_as="csv", save_convergence=True, verbose=True)
+    multitask.execute(n_trials=10, mode="parallel", n_workers=10, save_path="history1", save_as="csv", save_convergence=True, verbose=True)
