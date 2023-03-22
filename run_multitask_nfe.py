@@ -15,7 +15,7 @@ from mealpy.human_based import TLO, FBIO, GSKA, QSA
 from mealpy.music_based import HS
 from mealpy.physics_based import HGSO, NRO, EFO, EO
 from mealpy.swarm_based import DO, GWO, HGS, HHO, WOA, PSO, SSA, PFA
-from src.multitask import Multitask
+from mealpy.multitask import Multitask
 
 
 def problem_generator(name, ndim):
@@ -30,9 +30,10 @@ def problem_generator(name, ndim):
     }
     return problem
 
+
 def termination_generator():
     term_dict = {
-        "max_fe": 100000  # 100000 number of function evaluation
+        "max_fe": 50000  # 100000 number of function evaluation
     }
     return term_dict
 
@@ -43,7 +44,7 @@ list_problems = [problem_generator(name, 30) for name in list_names]
 list_terms = [termination_generator() for _ in list_names]
 
 ## Define models
-epoch = 500
+epoch = 2000
 pop_size = 50
 
 model1 = DE.BaseDE(epoch=epoch, pop_size=pop_size)
@@ -83,4 +84,4 @@ list_models = [model1, model2, model3, model4, model5, model6, model7, model8, m
 
 if __name__ == "__main__":
     multitask = Multitask(algorithms=list_models, problems=list_problems, terminations=list_terms)
-    multitask.execute(n_trials=10, mode="parallel", n_workers=10, save_path="history1", save_as="csv", save_convergence=True, verbose=True)
+    multitask.execute(n_trials=10, mode="parallel", n_workers=10, save_path="history2", save_as="csv", save_convergence=True, verbose=True)
